@@ -259,6 +259,42 @@ Project file contents:
 # COMMANDS
 # ─────────────────────────────────────────────
 
+def log_command():
+    """Summarize last N commits in plain English"""
+    try:
+        n = input("\nHow many recent commits to summarize? (default 5): ").strip()
+        n = int(n) if n.isdigit() else 5
+
+        result = subprocess.check_output(
+            ["git", "log", f"-{n}", "--pretty=format:%s"],
+            stderr=subprocess.STDOUT
+        )
+        commits = result.decode("utf-8").strip()
+
+        if not commits:
+            print("No commits found.")
+            return
+
+        print(f"\n Summarizing last {n} commits...\n")
+
+        prompt = f"""
+Summarize these git commits in plain English in 2-3 sentences.
+Write it like: "In the last {n} commits, the developer..."
+Be specific about what changed. Do not list commits one by one.
+
+Commits:
+{commits}
+"""
+        response = model.invoke(prompt)
+        print("Summary:")
+        print("-" * 60)
+        print(response.content.strip())
+        print("-" * 60)
+
+    except Exception as e:
+        print("Error:", e)
+
+
 def push_command():
     """Main push flow"""
 
@@ -403,6 +439,7 @@ def main():
         print("  ai_git push    → stage, commit & push with AI commit message")
         print("  ai_git ignore  → generate .gitignore for your project")
         print("  ai_git readme  → generate README.md for your project")
+        print("  ai_git log     → summarize recent commits in plain English")
         print("-" * 40)
         return
 
@@ -414,6 +451,8 @@ def main():
         ignore_command()
     elif command == "readme":
         readme_command()
+    elif command == "log":
+        log_command()
     else:
         print(f"Unknown command: '{command}'")
         print("Available commands: push, ignore, readme")
