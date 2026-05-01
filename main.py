@@ -30,7 +30,7 @@ def get_changed_files():
                 files.append((status, filename))
         return files
     except Exception as e:
-        print("❌ Error reading git status:", e)
+        print("Error reading git status:", e)
         return []
 
 
@@ -43,7 +43,7 @@ def get_git_diff():
         )
         return diff.decode("utf-8", errors="ignore").strip()
     except Exception as e:
-        print("❌ Error getting git diff:", e)
+        print("Error getting git diff:", e)
         return ""
 
 
@@ -92,7 +92,7 @@ Git Diff:
 {diff[:4000]}
 """
     if len(diff) > 4000:
-        print("⚠️  Large diff detected — only first 4000 chars sent to AI.\n")
+        print("Large diff detected — only first 4000 chars sent to AI.\n")
 
     response = model.invoke(prompt)
     return response.content.strip()
@@ -101,21 +101,23 @@ Git Diff:
 def stage_files(exclude_files):
     """Stage all files except the excluded ones"""
     try:
-        # First reset any previously staged files
+        # Reset staging area first
         subprocess.run(["git", "reset"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-        # Get all changed files
-        changed = get_changed_files()
-        staged_count = 0
+        # Stage everything
+        subprocess.run(["git", "add", "."], stderr=subprocess.DEVNULL)
 
-        for status, filename in changed:
-            if filename not in exclude_files:
-                subprocess.run(["git", "add", filename], stderr=subprocess.DEVNULL)
-                staged_count += 1
+        # Unstage excluded files
+        for filename in exclude_files:
+            subprocess.run(["git", "restore", "--staged", filename], stderr=subprocess.DEVNULL)
 
-        return staged_count
+        # Count staged files
+        result = subprocess.check_output(["git", "diff", "--cached", "--name-only"])
+        staged = result.decode("utf-8").strip().split("\n")
+        return len([f for f in staged if f])
+
     except Exception as e:
-        print("❌ Error staging files:", e)
+        print("Error staging files:", e)
         return 0
 
 
@@ -128,11 +130,11 @@ def git_push():
             text=True
         )
         if result.returncode == 0:
-            print("✅ Pushed to GitHub successfully!")
+            print("Pushed to GitHub successfully!")
         else:
-            print("❌ Push failed:\n", result.stderr)
+            print("Push failed:\n", result.stderr)
     except Exception as e:
-        print("❌ Error during push:", e)
+        print(" Error during push:", e)
 
 
 def git_commit(message):
@@ -144,24 +146,24 @@ def git_commit(message):
             text=True
         )
         if result.returncode == 0:
-            print("✅ Committed successfully!")
+            print("Committed successfully!")
             return True
         else:
-            print("❌ Commit failed:\n", result.stderr)
+            print("Commit failed:\n", result.stderr)
             return False
     except Exception as e:
-        print("❌ Error during commit:", e)
+        print(" Error during commit:", e)
         return False
 
 
 def push_command():
     """Main push flow"""
 
-    print("\n📂 Scanning for changed files...\n")
+    print("\n Scanning for changed files...\n")
     changed_files = get_changed_files()
 
     if not changed_files:
-        print("⚠️  No changes found in your repo.")
+        print("No changes found in your repo.")
         return
 
     # Show changed files
@@ -187,24 +189,24 @@ def push_command():
     exclude_files = []
     if exclude_input:
         exclude_files = [f.strip() for f in exclude_input.split(",")]
-        print(f"\n⏭️  Excluding: {', '.join(exclude_files)}")
+        print(f"\n Excluding: {', '.join(exclude_files)}")
 
     # Stage files
-    print("\n📦 Staging files...")
+    print("\n Staging files...")
     staged_count = stage_files(exclude_files)
 
     if staged_count == 0:
-        print("⚠️  No files staged after exclusions.")
+        print("No files staged after exclusions.")
         return
 
-    print(f"✅ {staged_count} file(s) staged.\n")
+    print(f" {staged_count} file(s) staged.\n")
 
     # Generate commit message
-    print("🤖 Generating commit message with AI...\n")
+    print(" Generating commit message with AI...\n")
     diff = get_git_diff()
     message = generate_commit_message(diff)
 
-    print("📝 Suggested Commit Message:")
+    print(" Suggested Commit Message:")
     print("-" * 60)
     print(message)
     print("-" * 60)
@@ -216,17 +218,17 @@ def push_command():
     if choice == "e":
         message = input("Enter your commit message: ").strip()
         if not message:
-            print("❌ Empty message. Cancelled.")
+            print(" Empty message. Cancelled.")
             return
         choice = "y"
 
     if choice == "y":
         success = git_commit(message)
         if success:
-            print("\n🚀 Pushing to GitHub...")
+            print("\n Pushing to GitHub...")
             git_push()
     else:
-        print("❌ Cancelled.")
+        print(" Cancelled.")
         subprocess.run(["git", "reset"], stdout=subprocess.DEVNULL)
 
 
@@ -240,7 +242,7 @@ def main():
     if command == "push":
         push_command()
     else:
-        print(f"❌ Unknown command: '{command}'")
+        print(f" Unknown command: '{command}'")
         print("Available commands: push")
 
 
