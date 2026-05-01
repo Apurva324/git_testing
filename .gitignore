@@ -1,0 +1,76 @@
+# .gitignore
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Node
+node_modules/
+
+# OS files
+.DS_Store
+venv/.DS_Store
+
+# Virtual Environment files
+venv/bin/
+venv/lib/
+venv/include/
+
+# Specific files
+venv/bin/Activate.ps1
+venv/bin/activate.fish
+venv/bin/activate.csh
+venv/bin/activate
+venv/bin/httpx
+venv/bin/jsondiff
+venv/bin/jsonpatch
+venv/bin/jsonpointer
+venv/bin/normalizer
+venv/bin/pip
+venv/bin/pip3
+venv/bin/distro
+venv/bin/dotenv
+venv/pyvenv.cfg
+
+# Specific directories
+venv/lib/python3.14/site-packages/orjson/
+venv/lib/python3.14/site-packages/packaging/
+
+# Specific files (continued)
+venv/lib/python3.14/site-packages/orjson/__init__.py
+venv/lib/python3.14/site-packages/orjson/__init__.pyi
+venv/lib/python3.14/site-packages/orjson/orjson.cpython-314-darwin.so
+venv/lib/python3.14/site-packages/orjson/py.typed
+venv/lib/python3.14/site-packages/packaging/tags.py
+venv/lib/python3.14/site-packages/packaging/_musllinux.py
+venv/lib/python3.14/site-packages/packaging/dependency_groups.py
+venv/lib/python3.14/site-packages/packaging/metadata.py
+venv/lib/python3.14/site-packages/packaging/version.py
+venv/lib/python3.14/site-packages/packaging/direct_url.py
+venv/lib/python3.14/site-packages/packaging/licenses/__init__.py
+venv/lib/python3.14/site-packages/packaging/licenses/_spdx.py
+venv/lib/python3.14/site-packages/packaging/licenses/__pycache__/_spdx.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/licenses/__pycache__/__init__.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/pylock.py
+venv/lib/python3.14/site-packages/packaging/__init__.py
+venv/lib/python3.14/site-packages/packaging/__pycache__/requirements.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/dependency_groups.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/markers.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/errors.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/utils.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/tags.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/_musllinux.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/pylock.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/_tokenizer.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/metadata.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/_elffile.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/version.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/specifiers.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/__init__.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/_structures.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/direct_url.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/_parser.cpython-314.pyc
+venv/lib/python3.14/site-packages/packaging/__pycache__/_manylinux.cpython-314.pyc
+
+# .env file
+.env
