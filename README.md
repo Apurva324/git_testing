@@ -1,39 +1,44 @@
 # AutoGit: AI-Powered Git Automation
-Automate your Git workflow with AutoGit, a CLI tool that simplifies Git pushes with AI-generated commit messages.
+Automate your Git workflow with AutoGit, a CLI tool that leverages AI to generate commit messages, create `.gitignore` files, and produce READMEs.
 
 ## Features
-* Stage files and generate AI commit messages
-* Push changes to GitHub
-* Generate `.gitignore` files based on project scans
-* Create `README.md` files by reading project files
+* Generate AI-powered commit messages
+* Automatically create `.gitignore` files
+* Produce high-quality READMEs
+* Summarize recent commits in plain English
 
 ## Tech Stack
-* `subprocess` for Git command execution
-* `os` and `sys` for system operations
-* `dotenv` for environment variable management
-* `langchain_groq` for AI-powered commit message generation
+* `langchain-groq` for AI-powered text generation
+* `python-dotenv` for environment variable management
 
 ## Installation
-To install AutoGit, clone this repository and install the required dependencies.
+To install AutoGit, run the following command:
+```bash
+pip install ai-git-cli-apurva
+```
+This will install the `ai_git` command globally on your system.
 
 ## Usage
-### Push Changes with AI-Generated Commit Messages
+### Commit and Push
+Use `ai_git push` to stage all files, generate an AI-powered commit message, and push to GitHub.
 ```bash
 ai_git push
 ```
-Stages files, generates an AI commit message, and pushes changes to GitHub.
+This command will automatically stage all files, generate a commit message using AI, and push the changes to your remote repository.
 
-### Generate .gitignore Files
+### Generate .gitignore
+Use `ai_git ignore` to scan your project and generate a `.gitignore` file.
 ```bash
 ai_git ignore
 ```
-Scans the project and generates a `.gitignore` file.
+This command will analyze your project directory and create a `.gitignore` file based on the files and directories it finds.
 
-### Create README.md Files
+### Generate README
+Use `ai_git readme` to read your project files and generate a high-quality README.
 ```bash
 ai_git readme
 ```
-Reads project files and generates a `README.md` file.
+This command will parse your project files and produce a well-structured README that summarizes your project.
 
 ## License
 AutoGit is licensed under the MIT License.
